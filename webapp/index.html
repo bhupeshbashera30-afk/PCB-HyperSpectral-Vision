@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB HyperSpectral Vision — Component Classification</title>
+    <meta name="description" content="Advanced PCB component classification using GaborMamba and CNN2D_AttGCN deep learning models on hyperspectral imagery.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="cursor-glow" class="cursor-glow"></div>
+
+    <!-- NAV -->
+    <nav id="main-nav" class="nav">
+        <div class="nav-brand">
+            <span class="nav-logo">⬡</span>
+            <span class="nav-title">PCB<span class="accent">Vision</span></span>
+        </div>
+        <div class="nav-links">
+            <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+            <a href="#modules" class="nav-link" data-section="modules">Modules</a>
+            <a href="#classify" class="nav-link" data-section="classify">Classify</a>
+            <a href="#about" class="nav-link" data-section="about">About</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="hero-section">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-particles" id="hero-particles"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow scroll-reveal">HyperSpectral Deep Learning</div>
+            <h1 class="hero-title">
+                <span class="hero-line scroll-reveal" style="--delay:0.1s">PCB Component</span>
+                <span class="hero-line scroll-reveal" style="--delay:0.3s"><em>Classification</em></span>
+                <span class="hero-line scroll-reveal" style="--delay:0.5s">System</span>
+            </h1>
+            <p class="hero-subtitle scroll-reveal" style="--delay:0.7s">
+                Leveraging Gabor-enhanced Mamba architectures and Attention-GCN fusion 
+                to identify IC, Capacitor &amp; Connector components with spectral precision.
+            </p>
+            <div class="hero-cta scroll-reveal" style="--delay:0.9s">
+                <a href="#classify" class="btn btn-primary" id="btn-start">
+                    <span>Begin Analysis</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#modules" class="btn btn-ghost">Explore Modules</a>
+            </div>
+        </div>
+        <div class="hero-marquee">
+            <div class="marquee-track">
+                <span>GaborMamba</span><span class="marquee-dot">◆</span>
+                <span>CNN2D_AttGCN</span><span class="marquee-dot">◆</span>
+                <span>HyperSpectral Imaging</span><span class="marquee-dot">◆</span>
+                <span>PCB Analysis</span><span class="marquee-dot">◆</span>
+                <span>GaborMamba</span><span class="marquee-dot">◆</span>
+                <span>CNN2D_AttGCN</span><span class="marquee-dot">◆</span>
+                <span>HyperSpectral Imaging</span><span class="marquee-dot">◆</span>
+                <span>PCB Analysis</span><span class="marquee-dot">◆</span>
+            </div>
+        </div>
+        <div class="scroll-indicator scroll-reveal" style="--delay:1.2s">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- MODULES -->
+    <section id="modules" class="modules-section">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <span class="section-eyebrow">Architecture</span>
+                <h2 class="section-title">System <em>Modules</em></h2>
+                <p class="section-subtitle">Two powerful deep learning architectures working in tandem to classify PCB components from hyperspectral imagery.</p>
+            </div>
+            <div class="modules-grid">
+                <div class="module-card scroll-reveal" style="--delay:0.2s" id="card-gabor">
+                    <div class="module-card-glow"></div>
+                    <div class="module-number">01</div>
+                    <div class="module-icon">
+                        <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="35" stroke="url(#g1)" stroke-width="2" stroke-dasharray="6 4"/><circle cx="40" cy="40" r="22" stroke="url(#g1)" stroke-width="1.5"/><circle cx="40" cy="40" r="8" fill="url(#g1)"/><defs><linearGradient id="g1" x1="0" y1="0" x2="80" y2="80"><stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#6d28d9"/></linearGradient></defs></svg>
+                    </div>
+                    <h3 class="module-name">GaborMamba</h3>
+                    <p class="module-desc">Gabor texture extraction → Spatial token generation → Feature gating → Dilated Conv1D temporal encoder → Classifier</p>
+                    <div class="module-stats">
+                        <div class="stat" data-tooltip="Total trainable parameters"><span class="stat-value">221,774</span><span class="stat-label">Parameters</span></div>
+                        <div class="stat" data-tooltip="6 fixed Gabor filter orientations"><span class="stat-value">6</span><span class="stat-label">Gabor Filters</span></div>
+                        <div class="stat" data-tooltip="State dimension for temporal encoding"><span class="stat-value">128</span><span class="stat-label">State Dim</span></div>
+                    </div>
+                    <div class="module-layers">
+                        <span class="layer-tag">GaborLayer</span><span class="layer-tag">TokenGen</span><span class="layer-tag">FeatureGate</span><span class="layer-tag">Conv1D Encoder</span><span class="layer-tag">BatchNorm</span><span class="layer-tag">Dropout 0.4</span>
+                    </div>
+                </div>
+                <div class="module-card scroll-reveal" style="--delay:0.4s" id="card-attgcn">
+                    <div class="module-card-glow"></div>
+                    <div class="module-number">02</div>
+                    <div class="module-icon">
+                        <svg viewBox="0 0 80 80" fill="none"><rect x="10" y="10" width="60" height="60" rx="8" stroke="url(#g2)" stroke-width="2"/><rect x="22" y="22" width="36" height="36" rx="4" stroke="url(#g2)" stroke-width="1.5"/><rect x="32" y="32" width="16" height="16" rx="2" fill="url(#g2)"/><defs><linearGradient id="g2" x1="0" y1="0" x2="80" y2="80"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs></svg>
+                    </div>
+                    <h3 class="module-name">CNN2D_AttGCN</h3>
+                    <p class="module-desc">CNN2D spatial branch + CoT Attention-GCN graph reasoning → Alpha-weighted fusion → Softmax classifier</p>
+                    <div class="module-stats">
+                        <div class="stat" data-tooltip="Alpha blending for CNN+GCN fusion"><span class="stat-value">0.50</span><span class="stat-label">Alpha Fusion</span></div>
+                        <div class="stat" data-tooltip="GloRe graph convolution reasoning"><span class="stat-value">GloRe</span><span class="stat-label">Graph Engine</span></div>
+                        <div class="stat" data-tooltip="CoT contextual attention"><span class="stat-value">CoT</span><span class="stat-label">Attention</span></div>
+                    </div>
+                    <div class="module-layers">
+                        <span class="layer-tag">Conv2D ×4</span><span class="layer-tag">CoT Attention</span><span class="layer-tag">GloRe GCN</span><span class="layer-tag">GAP</span><span class="layer-tag">α-Fusion</span><span class="layer-tag">Dropout 0.3–0.4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLASSIFY -->
+    <section id="classify" class="classify-section">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <span class="section-eyebrow">Analysis</span>
+                <h2 class="section-title">Classify <em>Components</em></h2>
+                <p class="section-subtitle">Upload a PCB image and select your model(s). The system will mark each component — IC, Capacitor, Connector, or Others — directly on the image.</p>
+            </div>
+
+            <div class="classify-workspace scroll-reveal" style="--delay:0.2s">
+                <!-- Upload -->
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <h3 class="upload-title">Drop your PCB image here</h3>
+                        <p class="upload-hint">or click to browse · PNG, JPG, TIFF</p>
+                        <input type="file" id="file-input" accept="image/*" hidden>
+                    </div>
+                    <div class="upload-preview" id="upload-preview" style="display:none;">
+                        <img id="preview-img" src="" alt="PCB Preview">
+                        <button class="btn-remove" id="btn-remove" title="Remove image">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Model Selection -->
+                <div class="model-selection">
+                    <h3 class="selection-title">Select Model(s)</h3>
+                    <div class="model-toggles">
+                        <label class="model-toggle" id="toggle-gabor">
+                            <input type="checkbox" name="model" value="GaborMamba" checked>
+                            <div class="toggle-card"><div class="toggle-indicator"></div><div class="toggle-content"><span class="toggle-name">GaborMamba</span><span class="toggle-detail">Gabor + Temporal Encoder</span></div><div class="toggle-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+                        </label>
+                        <label class="model-toggle" id="toggle-attgcn">
+                            <input type="checkbox" name="model" value="CNN2D_AttGCN" checked>
+                            <div class="toggle-card"><div class="toggle-indicator"></div><div class="toggle-content"><span class="toggle-name">CNN2D_AttGCN</span><span class="toggle-detail">CNN + Attention Graph Net</span></div><div class="toggle-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Classify Button -->
+                <button class="btn btn-classify" id="btn-classify" disabled>
+                    <span class="btn-classify-text">Run Classification</span>
+                    <span class="btn-classify-loader" style="display:none;"><span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span></span>
+                </button>
+
+                <!-- Progress bar -->
+                <div class="progress-bar-container" id="progress-container" style="display:none;">
+                    <div class="progress-label" id="progress-label">Analyzing image...</div>
+                    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+                </div>
+            </div>
+
+            <!-- ═══ RESULTS ═══ -->
+            <div class="results-area" id="results-area" style="display:none;">
+                <div class="results-header">
+                    <h3 class="results-title">Classification <em>Results</em></h3>
+                </div>
+                <div class="results-grid" id="results-grid">
+                    <!-- JS injects: heatmap + per-class snapshot sections -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / CLASSES -->
+    <section id="about" class="about-section">
+        <div class="section-container">
+            <div class="section-header scroll-reveal">
+                <span class="section-eyebrow">Output Classes</span>
+                <h2 class="section-title">Component <em>Taxonomy</em></h2>
+                <p class="section-subtitle">The system classifies each pixel region into one of four component categories.</p>
+            </div>
+            <div class="classes-grid">
+                <div class="class-card scroll-reveal" style="--delay:0.1s;--class-color:#64748b;">
+                    <span class="class-index">0</span><h4 class="class-name">Others</h4>
+                    <p class="class-desc">Background substrate, traces, solder mask, and non-component regions.</p>
+                </div>
+                <div class="class-card scroll-reveal" style="--delay:0.2s;--class-color:#a78bfa;">
+                    <span class="class-index">1</span><h4 class="class-name">IC</h4>
+                    <p class="class-desc">Integrated Circuits — QFP, BGA, SOP and other semiconductor packages.</p>
+                </div>
+                <div class="class-card scroll-reveal" style="--delay:0.3s;--class-color:#06b6d4;">
+                    <span class="class-index">2</span><h4 class="class-name">Capacitor</h4>
+                    <p class="class-desc">Ceramic, electrolytic, and tantalum capacitors for energy storage.</p>
+                </div>
+                <div class="class-card scroll-reveal" style="--delay:0.4s;--class-color:#f59e0b;">
+                    <span class="class-index">3</span><h4 class="class-name">Connector</h4>
+                    <p class="class-desc">Pin headers, edge connectors, USB ports and I/O interfaces.</p>
+                </div>
+            </div>
+
+            <div class="pipeline-section scroll-reveal" style="--delay:0.3s">
+                <h3 class="pipeline-title">Processing <em>Pipeline</em></h3>
+                <div class="pipeline-steps">
+                    <div class="pipeline-step"><div class="step-number">01</div><h4>HSI Capture</h4><p>224-band hyperspectral cube</p></div>
+                    <div class="pipeline-connector"></div>
+                    <div class="pipeline-step"><div class="step-number">02</div><h4>PCA → 15D</h4><p>Dimensionality reduction</p></div>
+                    <div class="pipeline-connector"></div>
+                    <div class="pipeline-step"><div class="step-number">03</div><h4>8×8 Patches</h4><p>Spatial patch extraction</p></div>
+                    <div class="pipeline-connector"></div>
+                    <div class="pipeline-step"><div class="step-number">04</div><h4>Model Inference</h4><p>GaborMamba / CNN2D_AttGCN</p></div>
+                    <div class="pipeline-connector"></div>
+                    <div class="pipeline-step"><div class="step-number">05</div><h4>Component Map</h4><p>Pixel-level classification</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-marquee"><div class="marquee-track marquee-reverse">
+            <span>Others</span><span class="marquee-dot">◇</span><span>IC</span><span class="marquee-dot">◇</span><span>Capacitor</span><span class="marquee-dot">◇</span><span>Connector</span><span class="marquee-dot">◇</span>
+            <span>Others</span><span class="marquee-dot">◇</span><span>IC</span><span class="marquee-dot">◇</span><span>Capacitor</span><span class="marquee-dot">◇</span><span>Connector</span><span class="marquee-dot">◇</span>
+        </div></div>
+        <div class="footer-content"><p>PCB HyperSpectral Vision · GaborMamba & CNN2D_AttGCN</p></div>
+    </footer>
+
+    <div id="tooltip" class="tooltip"></div>
+    <script src="script.js"></script>
+</body>
+</html>
