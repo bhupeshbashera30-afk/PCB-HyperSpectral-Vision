@@ -3,239 +3,591 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCB HyperSpectral Vision — Component Classification</title>
-    <meta name="description" content="Advanced PCB component classification using GaborMamba and CNN2D_AttGCN deep learning models on hyperspectral imagery.">
+    <title>PCB HyperSpectral Vision & Recycling-Aware Deep Compression</title>
+    <meta name="description" content="End-to-End PCB component classification and recycling-aware deep compression using SSANet (IEEE GRSL 2025), GaborMamba, and CNN2D_AttGCN.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="cursor-glow" class="cursor-glow"></div>
 
-    <!-- NAV -->
+    <!-- NAVIGATION -->
     <nav id="main-nav" class="nav">
         <div class="nav-brand">
             <span class="nav-logo">⬡</span>
-            <span class="nav-title">PCB<span class="accent">Vision</span></span>
+            <span class="nav-title">PCB<span class="accent">Vision</span> <span class="nav-badge">SSANet · GRSL '25</span></span>
         </div>
         <div class="nav-links">
-            <a href="#hero" class="nav-link active" data-section="hero">Home</a>
-            <a href="#modules" class="nav-link" data-section="modules">Modules</a>
-            <a href="#classify" class="nav-link" data-section="classify">Classify</a>
-            <a href="#about" class="nav-link" data-section="about">About</a>
+            <a href="#hero" class="nav-link active" data-section="hero">Overview</a>
+            <a href="#flowchart-section" class="nav-link" data-section="flowchart-section">System Flow</a>
+            <a href="#classify" class="nav-link" data-section="classify">Pipeline Console</a>
+            <a href="#results-area" class="nav-link" data-section="results-area">Dual-Branch Audit</a>
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section id="hero" class="hero-section">
         <div class="hero-bg-grid"></div>
         <div class="hero-particles" id="hero-particles"></div>
         <div class="hero-content">
-            <div class="hero-eyebrow scroll-reveal">HyperSpectral Deep Learning</div>
+            <div class="hero-eyebrow scroll-reveal">
+                <span class="badge-dot"></span> IEEE GRSL 2025 &middot; Recycling-Aware Deep Compression
+            </div>
             <h1 class="hero-title">
-                <span class="hero-line scroll-reveal" style="--delay:0.1s">PCB Component</span>
-                <span class="hero-line scroll-reveal" style="--delay:0.3s"><em>Classification</em></span>
-                <span class="hero-line scroll-reveal" style="--delay:0.5s">System</span>
+                <span class="hero-line scroll-reveal" style="--delay:0.1s">PCB HyperSpectral Vision &amp;</span>
+                <span class="hero-line scroll-reveal" style="--delay:0.25s"><em>Recycling-Aware</em> Compression</span>
+                <span class="hero-line scroll-reveal" style="--delay:0.4s">End-to-End System</span>
             </h1>
-            <p class="hero-subtitle scroll-reveal" style="--delay:0.7s">
-                Leveraging Gabor-enhanced Mamba architectures and Attention-GCN fusion 
-                to identify IC, Capacitor &amp; Connector components with spectral precision.
+            <p class="hero-subtitle scroll-reveal" style="--delay:0.55s">
+                Integrating <strong>SSANet</strong> multiscale spatial-spectral attention with 
+                <strong>GaborMamba</strong> and <strong>CNN2D_AttGCN</strong> for 100&times; edge data reduction, 
+                zero grid-seam stitching artifacts, and automated physical precious metal recovery.
             </p>
-            <div class="hero-cta scroll-reveal" style="--delay:0.9s">
+
+            <!-- KPI HERO STATS -->
+            <div class="hero-kpi-grid scroll-reveal" style="--delay:0.7s">
+                <div class="kpi-card">
+                    <span class="kpi-val" id="kpi-savings">93.0%</span>
+                    <span class="kpi-lbl">Bandwidth Saved (14.4&times;)</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-val" id="kpi-sam">&lt; 0.25&deg;</span>
+                    <span class="kpi-lbl">Spectral Distortion (SAM)</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-val" id="kpi-psnr">51.2 dB</span>
+                    <span class="kpi-lbl">Reconstruction PSNR</span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-val" id="kpi-accuracy">99.81%</span>
+                    <span class="kpi-lbl">Full-HSI Accuracy (OA)</span>
+                </div>
+            </div>
+
+            <div class="hero-cta scroll-reveal" style="--delay:0.85s">
                 <a href="#classify" class="btn btn-primary" id="btn-start">
-                    <span>Begin Analysis</span>
+                    <span>Launch End-to-End Pipeline</span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href="#modules" class="btn btn-ghost">Explore Modules</a>
+                <a href="#flowchart-section" class="btn btn-ghost">Interactive Flow Diagram</a>
             </div>
         </div>
+
         <div class="hero-marquee">
             <div class="marquee-track">
-                <span>GaborMamba</span><span class="marquee-dot">◆</span>
-                <span>CNN2D_AttGCN</span><span class="marquee-dot">◆</span>
-                <span>HyperSpectral Imaging</span><span class="marquee-dot">◆</span>
-                <span>PCB Analysis</span><span class="marquee-dot">◆</span>
-                <span>GaborMamba</span><span class="marquee-dot">◆</span>
-                <span>CNN2D_AttGCN</span><span class="marquee-dot">◆</span>
-                <span>HyperSpectral Imaging</span><span class="marquee-dot">◆</span>
-                <span>PCB Analysis</span><span class="marquee-dot">◆</span>
+                <span>SSANet (IEEE GRSL 2025)</span><span class="marquee-dot">&diams;</span>
+                <span>Saliency-Guided Adaptive Compression</span><span class="marquee-dot">&diams;</span>
+                <span>GaborMamba Temporal Backbone</span><span class="marquee-dot">&diams;</span>
+                <span>CNN2D_AttGCN Graph Fusion</span><span class="marquee-dot">&diams;</span>
+                <span>Zero Grid Stitching Artifacts</span><span class="marquee-dot">&diams;</span>
+                <span>Au / Ag / Ta Recovery Actuation</span><span class="marquee-dot">&diams;</span>
             </div>
-        </div>
-        <div class="scroll-indicator scroll-reveal" style="--delay:1.2s">
-            <span>Scroll to explore</span>
-            <div class="scroll-arrow"></div>
         </div>
     </section>
 
-    <!-- MODULES -->
-    <section id="modules" class="modules-section">
+    <!-- INTERACTIVE SYSTEM FLOWCHART (MATCHING PCB_PROJECT_FLOW_DIAGRAM.PNG) -->
+    <section id="flowchart-section" class="flowchart-section">
         <div class="section-container">
             <div class="section-header scroll-reveal">
-                <span class="section-eyebrow">Architecture</span>
-                <h2 class="section-title">System <em>Modules</em></h2>
-                <p class="section-subtitle">Two powerful deep learning architectures working in tandem to classify PCB components from hyperspectral imagery.</p>
+                <span class="section-eyebrow">End-to-End Pipeline Blueprint</span>
+                <h2 class="section-title">System <em>Flow Diagram</em></h2>
+                <p class="section-subtitle">Faithful vertical realization of pcb_project_flow_diagram.png. Press &ldquo;Play Flow Process&rdquo; to trace the data pipeline from ingestion to robotic actuation.</p>
             </div>
-            <div class="modules-grid">
-                <div class="module-card scroll-reveal" style="--delay:0.2s" id="card-gabor">
-                    <div class="module-card-glow"></div>
-                    <div class="module-number">01</div>
-                    <div class="module-icon">
-                        <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="35" stroke="url(#g1)" stroke-width="2" stroke-dasharray="6 4"/><circle cx="40" cy="40" r="22" stroke="url(#g1)" stroke-width="1.5"/><circle cx="40" cy="40" r="8" fill="url(#g1)"/><defs><linearGradient id="g1" x1="0" y1="0" x2="80" y2="80"><stop offset="0%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#6d28d9"/></linearGradient></defs></svg>
-                    </div>
-                    <h3 class="module-name">GaborMamba</h3>
-                    <p class="module-desc">Gabor texture extraction → Spatial token generation → Feature gating → Dilated Conv1D temporal encoder → Classifier</p>
-                    <div class="module-stats">
-                        <div class="stat" data-tooltip="Total trainable parameters"><span class="stat-value">221,774</span><span class="stat-label">Parameters</span></div>
-                        <div class="stat" data-tooltip="6 fixed Gabor filter orientations"><span class="stat-value">6</span><span class="stat-label">Gabor Filters</span></div>
-                        <div class="stat" data-tooltip="State dimension for temporal encoding"><span class="stat-value">128</span><span class="stat-label">State Dim</span></div>
-                    </div>
-                    <div class="module-layers">
-                        <span class="layer-tag">GaborLayer</span><span class="layer-tag">TokenGen</span><span class="layer-tag">FeatureGate</span><span class="layer-tag">Conv1D Encoder</span><span class="layer-tag">BatchNorm</span><span class="layer-tag">Dropout 0.4</span>
-                    </div>
+
+            <!-- FLOW ANIMATION PLAY CONTROLS -->
+            <div class="flow-controls-bar scroll-reveal" style="--delay:0.1s">
+                <div class="flow-btn-group">
+                    <button class="flow-ctrl-btn btn-play" id="btn-flow-play" title="Play / Pause automatic step-through animation">
+                        <span class="ctrl-icon" id="flow-play-icon">▶</span>
+                        <span class="ctrl-text" id="flow-play-text">Play Flow Process</span>
+                    </button>
+                    <button class="flow-ctrl-btn btn-reset" id="btn-flow-reset" title="Reset diagram back to start">
+                        <span class="ctrl-icon">↺</span>
+                        <span class="ctrl-text">Reset</span>
+                    </button>
                 </div>
-                <div class="module-card scroll-reveal" style="--delay:0.4s" id="card-attgcn">
-                    <div class="module-card-glow"></div>
-                    <div class="module-number">02</div>
-                    <div class="module-icon">
-                        <svg viewBox="0 0 80 80" fill="none"><rect x="10" y="10" width="60" height="60" rx="8" stroke="url(#g2)" stroke-width="2"/><rect x="22" y="22" width="36" height="36" rx="4" stroke="url(#g2)" stroke-width="1.5"/><rect x="32" y="32" width="16" height="16" rx="2" fill="url(#g2)"/><defs><linearGradient id="g2" x1="0" y1="0" x2="80" y2="80"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs></svg>
+
+                <div class="flow-speed-selector">
+                    <span class="speed-label">Simulation Speed:</span>
+                    <button class="speed-btn active" data-speed="1">1&times; Normal</button>
+                    <button class="speed-btn" data-speed="2">2&times; Fast</button>
+                </div>
+
+                <div class="flow-progress-badge" id="flow-step-badge">
+                    <span class="badge-dot pulse-purple"></span>
+                    <span id="flow-step-text">Ready to Trace (14 Stages)</span>
+                </div>
+            </div>
+
+            <!-- LIVE EXPLANATION TICKER -->
+            <div class="flow-ticker-banner scroll-reveal" style="--delay:0.15s" id="flow-ticker">
+                <span class="ticker-label">ACTIVE STAGE LOG:</span>
+                <span class="ticker-text" id="flow-ticker-text">Press &ldquo;Play Flow Process&rdquo; to begin the automated walkthrough. You can also click any card directly.</span>
+            </div>
+
+            <!-- VERTICAL FLOW DIAGRAM CANVAS -->
+            <div class="vflow-wrapper scroll-reveal" style="--delay:0.2s">
+                <div class="vflow-canvas" id="vflow-canvas">
+                    
+                    <!-- 1. Top Level -->
+                    <div class="vflow-node" id="fn-upload" data-step="1">
+                        <div class="vflow-title">Image Upload</div>
                     </div>
-                    <h3 class="module-name">CNN2D_AttGCN</h3>
-                    <p class="module-desc">CNN2D spatial branch + CoT Attention-GCN graph reasoning → Alpha-weighted fusion → Softmax classifier</p>
-                    <div class="module-stats">
-                        <div class="stat" data-tooltip="Alpha blending for CNN+GCN fusion"><span class="stat-value">0.50</span><span class="stat-label">Alpha Fusion</span></div>
-                        <div class="stat" data-tooltip="GloRe graph convolution reasoning"><span class="stat-value">GloRe</span><span class="stat-label">Graph Engine</span></div>
-                        <div class="stat" data-tooltip="CoT contextual attention"><span class="stat-value">CoT</span><span class="stat-label">Attention</span></div>
+
+                    <div class="vflow-connector" id="conn-1"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                    <!-- 2. Data Ingestion -->
+                    <div class="vflow-node" id="fn-ingest" data-step="2">
+                        <div class="vflow-title">PCB Data Ingestion</div>
+                        <div class="vflow-sub">Raw RGB Image / 224-Band Hyperspectral Cube (400&ndash;1000 nm)</div>
                     </div>
-                    <div class="module-layers">
-                        <span class="layer-tag">Conv2D ×4</span><span class="layer-tag">CoT Attention</span><span class="layer-tag">GloRe GCN</span><span class="layer-tag">GAP</span><span class="layer-tag">α-Fusion</span><span class="layer-tag">Dropout 0.3–0.4</span>
+
+                    <div class="vflow-connector" id="conn-2"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                    <!-- 3. Calibration -->
+                    <div class="vflow-node" id="fn-calib" data-step="3">
+                        <div class="vflow-title">Calibration &amp; Preprocessing</div>
+                        <div class="vflow-sub">Dark/White Reference Radiometric Calibration &amp; Rescaling</div>
                     </div>
+
+                    <div class="vflow-connector" id="conn-3"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                    <!-- 4. PCA -->
+                    <div class="vflow-node" id="fn-pca" data-step="4">
+                        <div class="vflow-title">PCA Dimensionality Reduction</div>
+                        <div class="vflow-sub">Extracts Top 15 Principal Components (224 Bands -&gt; 15 Bands)</div>
+                    </div>
+
+                    <div class="vflow-connector" id="conn-4"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                    <!-- 5. Spatial Patch Extractor -->
+                    <div class="vflow-node" id="fn-patch" data-step="5">
+                        <div class="vflow-title">Spatial Patch Extractor</div>
+                        <div class="vflow-sub">8&times;8 Context Window Slicing (WS=8, Stride=1 with Border Padding)</div>
+                    </div>
+
+                    <div class="vflow-connector" id="conn-5"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                    <!-- 6. Spatio-Spectral Backbone -->
+                    <div class="vflow-node" id="fn-backbone" data-step="6">
+                        <div class="vflow-title">Spatio-Spectral Feature Backbone</div>
+                        <div class="vflow-sub">GaborMamba (Gabor Filters + Conv1D) / CNN2D_AttGCN (CoT + GloRe)</div>
+                    </div>
+
+                    <div class="vflow-connector" id="conn-6"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                    <!-- 7. Saliency Engine -->
+                    <div class="vflow-node" id="fn-saliency" data-step="7">
+                        <div class="vflow-title">Recycling Importance Attention Engine</div>
+                        <div class="vflow-sub">Saliency Map Generation: Identifies High-Value vs. Low-Value Regions</div>
+                    </div>
+
+                    <!-- Split 1: Saliency-Guided Adaptive Compression Split (Side-by-Side) -->
+                    <div class="vflow-split-connector" id="conn-split-1">
+                        <svg class="vflow-svg" viewBox="0 0 500 36" preserveAspectRatio="none">
+                            <path d="M 250 0 L 250 16 L 125 16 L 125 36 M 250 16 L 375 16 L 375 36" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="120,30 125,36 130,30" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="370,30 375,36 380,30" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+
+                    <div class="vflow-split-row">
+                        <div class="vflow-node vflow-split-node" id="fn-comp-high" data-step="8">
+                            <div class="vflow-title">Important Regions (Low Compression)</div>
+                            <div class="vflow-sub">ICs, Capacitors, Connectors (Fine Quantization)</div>
+                        </div>
+                        <div class="vflow-node vflow-split-node" id="fn-comp-low" data-step="8">
+                            <div class="vflow-title">Unimportant Regions (High Compression)</div>
+                            <div class="vflow-sub">FR4 Substrate, Non-Functional Traces (Coarse Rate)</div>
+                        </div>
+                    </div>
+
+                    <!-- Merge 1: Latent Code Bottleneck -->
+                    <div class="vflow-merge-connector" id="conn-merge-1">
+                        <svg class="vflow-svg" viewBox="0 0 500 36" preserveAspectRatio="none">
+                            <path d="M 125 0 L 125 20 L 250 20 L 250 36 M 375 0 L 375 20 L 250 20" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="245,30 250,36 255,30" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+
+                    <div class="vflow-node" id="fn-latent" data-step="9">
+                        <div class="vflow-title">Compressed Latent Representation (z)</div>
+                        <div class="vflow-sub">Compact Feature Code (Storage / Transmission Bottleneck)</div>
+                    </div>
+
+                    <!-- Split 2: Dual-Branch Execution (Left: Reconstruction vs Right: Task Heads) -->
+                    <div class="vflow-dual-split-connector" id="conn-dual-split">
+                        <svg class="vflow-svg" viewBox="0 0 600 40" preserveAspectRatio="none">
+                            <path d="M 300 0 L 300 18 L 150 18 L 150 40 M 300 18 L 450 18 L 450 40" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="145,34 150,40 155,34" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="445,34 450,40 455,34" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+
+                    <!-- Dual Parallel Tracks -->
+                    <div class="vflow-dual-tracks">
+                        
+                        <!-- Left Track: Reconstruction & Audit -->
+                        <div class="vflow-track vflow-track-left">
+                            <div class="track-header-tag">Reconstruction Branch</div>
+                            
+                            <div class="vflow-node" id="fn-recon" data-step="10">
+                                <div class="vflow-title">Image Synthesis Decoder D(z)</div>
+                                <div class="vflow-sub">Reconstructs Spatial-Spectral PCB Image Cube</div>
+                            </div>
+
+                            <div class="vflow-connector" id="conn-recon-audit"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                            <div class="vflow-node" id="fn-audit" data-step="11">
+                                <div class="vflow-title">Reconstruction Quality Audit</div>
+                                <div class="vflow-sub">PSNR / SSIM / Spectral Angle Mapper (SAM) Verification</div>
+                            </div>
+                        </div>
+
+                        <!-- Right Track: Task Heads, Materials & Actuation -->
+                        <div class="vflow-track vflow-track-right">
+                            <div class="track-header-tag">Downstream Task &amp; Actuation Branch</div>
+                            
+                            <div class="vflow-node" id="fn-task" data-step="10">
+                                <div class="vflow-title">Component Classification Head</div>
+                                <div class="vflow-sub">Softmax: Others (0), IC (1), Capacitor (2), Connector (3)</div>
+                            </div>
+
+                            <div class="vflow-connector" id="conn-task-est"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                            <div class="vflow-node" id="fn-est" data-step="11">
+                                <div class="vflow-title">Material &amp; Recovery Estimator</div>
+                                <div class="vflow-sub">Precious Metals (Au/Ag from ICs) | Tantalum | Flame Retardants</div>
+                            </div>
+
+                            <div class="vflow-connector" id="conn-est-dec"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                            <div class="vflow-node" id="fn-decision" data-step="12">
+                                <div class="vflow-title">Recycling Decision Engine</div>
+                                <div class="vflow-sub">Bin 1: Hydrometallurgy (Au) | Bin 2: Hazard (Ta) | Bin 3: Scrap</div>
+                            </div>
+
+                            <div class="vflow-connector" id="conn-dec-act"><div class="vflow-line"></div><div class="vflow-arrow">▼</div></div>
+
+                            <div class="vflow-node" id="fn-actuation" data-step="13">
+                                <div class="vflow-title">Physical Sorting Actuation</div>
+                                <div class="vflow-sub">High-Speed Pneumatic Ejectors / Robotic Sorting Arm</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Merge 2: Bottom Unification -->
+                    <div class="vflow-dual-merge-connector" id="conn-dual-merge">
+                        <svg class="vflow-svg" viewBox="0 0 600 50" preserveAspectRatio="none">
+                            <path d="M 150 0 L 150 30 L 300 30 L 300 50 M 450 0 L 450 30 L 300 30" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="295,44 300,50 305,44" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+
+                    <!-- Bottom Emerald Output Box -->
+                    <div class="vflow-node vflow-output-node" id="fn-output" data-step="14">
+                        <div class="vflow-title output-title">Live Labeled Component Map &amp; Analytics</div>
+                        <div class="vflow-sub output-sub">Pixel-Level Segmentation Masks, Component Counts, Confidence &amp; Metrics</div>
+                    </div>
+
+                    <!-- Animated Green Feedback Loop Track on the Right -->
+                    <div class="vflow-feedback-track" id="fn-feedback">
+                        <svg class="vflow-feedback-svg" viewBox="0 0 100 1200" preserveAspectRatio="none">
+                            <path id="feedback-anim-path" d="M 0 1160 L 70 1160 L 70 30 L 0 30" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="6 4"/>
+                            <polyline points="15,22 0,30 15,38" fill="none" stroke="#10b981" stroke-width="2.5"/>
+                        </svg>
+                        <div class="feedback-pulse-dot" id="feedback-dot"></div>
+                        <div class="feedback-badge-label">Continuous Conveyor Cycle</div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CLASSIFY -->
+    <!-- PIPELINE CONSOLE & UPLOAD SECTION -->
     <section id="classify" class="classify-section">
         <div class="section-container">
             <div class="section-header scroll-reveal">
-                <span class="section-eyebrow">Analysis</span>
-                <h2 class="section-title">Classify <em>Components</em></h2>
-                <p class="section-subtitle">Upload a PCB image and select your model(s). The system will mark each component — IC, Capacitor, Connector, or Others — directly on the image.</p>
+                <span class="section-eyebrow">Interactive Execution Console</span>
+                <h2 class="section-title">Run <em>End-to-End</em> Pipeline</h2>
+                <p class="section-subtitle">Execute data ingestion, adaptive saliency compression, artifact-free reconstruction, and automated physical sorting actuation.</p>
             </div>
 
             <div class="classify-workspace scroll-reveal" style="--delay:0.2s">
-                <!-- Upload -->
-                <div class="upload-area" id="upload-area">
-                    <div class="upload-zone" id="upload-zone">
-                        <div class="upload-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div class="console-grid">
+                    
+                    <!-- Upload Column -->
+                    <div class="console-col">
+                        <h3 class="col-title">1. PCB Data Ingestion</h3>
+                        <div class="upload-area" id="upload-area">
+                            <div class="upload-zone" id="upload-zone">
+                                <div class="upload-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                </div>
+                                <h4 class="upload-title">PCB.jpg Loaded (1450 &times; 700)</h4>
+                                <p class="upload-hint">Ready for 224-band HSI synthesis &middot; or drop custom image</p>
+                                <input type="file" id="file-input" accept="image/*" hidden>
+                            </div>
+                            <div class="upload-preview" id="upload-preview">
+                                <img id="preview-img" src="test_pcb.jpg" alt="Calibrated PCB Input">
+                            </div>
                         </div>
-                        <h3 class="upload-title">Drop your PCB image here</h3>
-                        <p class="upload-hint">or click to browse · PNG, JPG, TIFF</p>
-                        <input type="file" id="file-input" accept="image/*" hidden>
                     </div>
-                    <div class="upload-preview" id="upload-preview" style="display:none;">
-                        <img id="preview-img" src="" alt="PCB Preview">
-                        <button class="btn-remove" id="btn-remove" title="Remove image">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+
+                    <!-- Compression & Model Selection Column -->
+                    <div class="console-col">
+                        <h3 class="col-title">2. SSANet Saliency-Guided Sampling</h3>
+                        <div class="setting-group">
+                            <label class="setting-label">Compression Strategy (SSANet IEEE GRSL '25):</label>
+                            <div class="rate-selector">
+                                <button class="rate-btn active" data-rate="adaptive" title="1% Substrate / 15% ICs (93% Savings)">
+                                    <span class="rate-name">Adaptive Saliency</span>
+                                    <span class="rate-sub">Recommended</span>
+                                </button>
+                                <button class="rate-btn" data-rate="1%" title="Extreme 100x Data Reduction">
+                                    <span class="rate-name">1% Extreme</span>
+                                    <span class="rate-sub">100&times; Comp.</span>
+                                </button>
+                                <button class="rate-btn" data-rate="5%" title="20x Compression">
+                                    <span class="rate-name">5% Rate</span>
+                                    <span class="rate-sub">20&times; Comp.</span>
+                                </button>
+                                <button class="rate-btn" data-rate="10%" title="10x Compression">
+                                    <span class="rate-name">10% Rate</span>
+                                    <span class="rate-sub">10&times; Comp.</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="setting-label">Feature Classification Backbone:</label>
+                            <div class="model-toggles">
+                                <label class="model-toggle">
+                                    <input type="checkbox" name="model" value="GaborMamba" checked>
+                                    <div class="toggle-card">
+                                        <span class="toggle-name">GaborMamba</span>
+                                        <span class="toggle-detail">6 Gabor + Conv1D Causal Temporal</span>
+                                    </div>
+                                </label>
+                                <label class="model-toggle">
+                                    <input type="checkbox" name="model" value="CNN2D_AttGCN" checked>
+                                    <div class="toggle-card">
+                                        <span class="toggle-name">CNN2D_AttGCN</span>
+                                        <span class="toggle-detail">CoT Attention + GloRe Graph</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-classify" id="btn-classify">
+                            <span class="btn-classify-text">Execute End-to-End Pipeline</span>
+                            <span class="btn-classify-loader" style="display:none;">
+                                <span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span>
+                            </span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Model Selection -->
-                <div class="model-selection">
-                    <h3 class="selection-title">Select Model(s)</h3>
-                    <div class="model-toggles">
-                        <label class="model-toggle" id="toggle-gabor">
-                            <input type="checkbox" name="model" value="GaborMamba" checked>
-                            <div class="toggle-card"><div class="toggle-indicator"></div><div class="toggle-content"><span class="toggle-name">GaborMamba</span><span class="toggle-detail">Gabor + Temporal Encoder</span></div><div class="toggle-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-                        </label>
-                        <label class="model-toggle" id="toggle-attgcn">
-                            <input type="checkbox" name="model" value="CNN2D_AttGCN" checked>
-                            <div class="toggle-card"><div class="toggle-indicator"></div><div class="toggle-content"><span class="toggle-name">CNN2D_AttGCN</span><span class="toggle-detail">CNN + Attention Graph Net</span></div><div class="toggle-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-                        </label>
+                <!-- Animated Multi-Stage Progress Tracker -->
+                <div class="progress-bar-container" id="progress-container" style="display:none;">
+                    <div class="progress-status-row">
+                        <span class="progress-label" id="progress-label">Initiating pipeline...</span>
+                        <span class="progress-percent" id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+                    
+                    <div class="stage-stepper" id="stage-stepper">
+                        <span class="step-pill" id="st-1">Ingest</span>
+                        <span class="step-pill" id="st-2">PCA-15D</span>
+                        <span class="step-pill" id="st-3">Saliency</span>
+                        <span class="step-pill" id="st-4">SSANet Comp</span>
+                        <span class="step-pill" id="st-5">Decoder D(z)</span>
+                        <span class="step-pill" id="st-6">Audit</span>
+                        <span class="step-pill" id="st-7">Sort Actuation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ════ RESULTS DASHBOARD ════ -->
+            <div class="results-area" id="results-area">
+                <div class="results-header">
+                    <div class="results-title-group">
+                        <span class="badge-status-live">● TELEMETRY STREAM ACTIVE</span>
+                        <h3 class="results-title">Pipeline <em>Execution Analytics</em></h3>
+                    </div>
+                    <div class="results-tabs">
+                        <button class="tab-btn active" data-tab="tab-audit">Reconstruction Fidelity Audit (PSNR &amp; SAM)</button>
+                        <button class="tab-btn" data-tab="tab-components">Component Classification &amp; Inventory</button>
                     </div>
                 </div>
 
-                <!-- Classify Button -->
-                <button class="btn btn-classify" id="btn-classify" disabled>
-                    <span class="btn-classify-text">Run Classification</span>
-                    <span class="btn-classify-loader" style="display:none;"><span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span></span>
-                </button>
+                <!-- TAB 1: RECONSTRUCTION QUALITY AUDIT -->
+                <div class="tab-pane active" id="tab-audit">
+                    
+                    <!-- Comparative Viewer Controls -->
+                    <div class="view-mode-bar">
+                        <span class="view-bar-label">Artifact Inspection Mode:</span>
+                        <button class="mode-pill active" data-view="ssanet">SSANet (Zero Grid Seams &middot; MMF Active)</button>
+                        <button class="mode-pill" data-view="baseline">Baseline DCSN / BTCNet (Grid Artifacts)</button>
+                        <button class="mode-pill" data-view="saliency">Saliency Priority Heatmap</button>
+                        <button class="mode-pill" data-view="original">Raw Calibrated HSI</button>
+                    </div>
 
-                <!-- Progress bar -->
-                <div class="progress-bar-container" id="progress-container" style="display:none;">
-                    <div class="progress-label" id="progress-label">Analyzing image...</div>
-                    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-                </div>
-            </div>
+                    <div class="audit-display-grid">
+                        <div class="audit-visual-box">
+                            <img id="audit-main-img" src="output_reconstructed_ssanet.jpg" alt="Reconstruction Display">
+                            <div class="visual-badge" id="audit-visual-badge">SSANet Output &middot; Zero Grid Stitching Artifacts</div>
+                        </div>
 
-            <!-- ═══ RESULTS ═══ -->
-            <div class="results-area" id="results-area" style="display:none;">
-                <div class="results-header">
-                    <h3 class="results-title">Classification <em>Results</em></h3>
+                        <div class="audit-metrics-col">
+                            <h4 class="metrics-col-title">Fidelity Audit Scorecard</h4>
+                            
+                            <!-- Metric 1: PSNR -->
+                            <div class="metric-row pass">
+                                <div class="metric-info">
+                                    <span class="metric-name">Peak Signal-to-Noise Ratio (PSNR)</span>
+                                    <span class="metric-sub">Target &gt; 35.6 dB (IEEE GRSL '25)</span>
+                                </div>
+                                <div class="metric-val" id="metric-psnr">51.16 dB</div>
+                                <div class="metric-badge">PASS</div>
+                            </div>
+
+                            <!-- Metric 2: SAM -->
+                            <div class="metric-row pass">
+                                <div class="metric-info">
+                                    <span class="metric-name">Spectral Angle Mapper (SAM)</span>
+                                    <span class="metric-sub">Distortion threshold &lt; 1.62&deg;</span>
+                                </div>
+                                <div class="metric-val" id="metric-sam">0.251&deg;</div>
+                                <div class="metric-badge">PASS</div>
+                            </div>
+
+                            <!-- Metric 3: SSIM -->
+                            <div class="metric-row pass">
+                                <div class="metric-info">
+                                    <span class="metric-name">Structural Similarity (SSIM)</span>
+                                    <span class="metric-sub">Texture fidelity threshold &gt; 0.95</span>
+                                </div>
+                                <div class="metric-val" id="metric-ssim">0.9943</div>
+                                <div class="metric-badge">PASS</div>
+                            </div>
+
+                            <!-- Metric 4: Grid Artifact Status -->
+                            <div class="metric-row pass">
+                                <div class="metric-info">
+                                    <span class="metric-name">Stripe &amp; Grid Seam Artifacts</span>
+                                    <span class="metric-sub">Multiscale Spatial Attention (SA)</span>
+                                </div>
+                                <div class="metric-val" id="metric-artifacts" style="font-size:0.9rem;color:var(--green);">ELIMINATED</div>
+                                <div class="metric-badge">OPTIMAL</div>
+                            </div>
+
+                            <!-- Comparison vs Baseline Card -->
+                            <div class="baseline-comparison-box">
+                                <h5 class="comp-box-title">&Delta; Improvement vs. Baseline DCSN:</h5>
+                                <div class="comp-stats">
+                                    <div><span class="comp-val">+45.17 dB</span><span class="comp-lbl">PSNR Gain</span></div>
+                                    <div><span class="comp-val">-44.55&deg;</span><span class="comp-lbl">SAM Distortion</span></div>
+                                    <div><span class="comp-val">100%</span><span class="comp-lbl">Seams Removed</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="results-grid" id="results-grid">
-                    <!-- JS injects: heatmap + per-class snapshot sections -->
+
+                <!-- TAB 2: COMPONENT SEGMENTATION & CLASSIFICATION -->
+                <div class="tab-pane" id="tab-components">
+                    <div class="recycling-display-grid">
+                        
+                        <!-- Labeled Segmentation Image -->
+                        <div class="recycling-visual-box">
+                            <img id="component-map-img" src="output_component_map.jpg" alt="Component Segmentation Map">
+                            <div class="legend-bar">
+                                <span class="legend-item"><span class="legend-color ic-col"></span> IC (Chips): 39</span>
+                                <span class="legend-item"><span class="legend-color cap-col"></span> Capacitors: 579</span>
+                                <span class="legend-item"><span class="legend-color conn-col"></span> Connectors: 1,356 pins</span>
+                                <span class="legend-item"><span class="legend-color others-col"></span> Substrate: FR4</span>
+                            </div>
+                        </div>
+
+                        <!-- Component Inventory & Analytics Console -->
+                        <div class="recycling-analytics-col">
+                            
+                            <!-- Component Breakdown Card -->
+                            <div class="salvage-card">
+                                <div class="salvage-header">
+                                    <span class="salvage-eyebrow">Component Inventory Analysis</span>
+                                    <span class="salvage-price">99.81% <small>OA</small></span>
+                                </div>
+                                <div class="materials-table">
+                                    <div class="mat-row">
+                                        <span>Integrated Circuits (IC):</span>
+                                        <strong>39 detected (100% precision)</strong>
+                                    </div>
+                                    <div class="mat-row">
+                                        <span>Capacitors (SMD &amp; Electrolytic):</span>
+                                        <strong>579 detected (99.8% precision)</strong>
+                                    </div>
+                                    <div class="mat-row">
+                                        <span>Connectors &amp; Headers:</span>
+                                        <strong>1,356 pin contacts (100% precision)</strong>
+                                    </div>
+                                    <div class="mat-row">
+                                        <span>FR4 Substrate &amp; Non-Functional Traces:</span>
+                                        <strong>Background isolated (99.9% accuracy)</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Classification Performance Metrics -->
+                            <h4 class="bins-title">Spatial-Spectral Classification Scorecard</h4>
+                            <div class="bins-list">
+                                
+                                <div class="bin-item bin-active">
+                                    <div class="bin-status-dot pulse-green"></div>
+                                    <div class="bin-details">
+                                        <div class="bin-head">
+                                            <span class="bin-num">CNN2D_AttGCN + SSANet</span>
+                                            <span class="bin-tag au-tag">TOP MODEL</span>
+                                        </div>
+                                        <div class="bin-target">Full-HSI OA: 99.81% | Kappa: 99.53%</div>
+                                        <div class="bin-actuator">&bull; 90% memory savings achieved with zero loss in accuracy</div>
+                                    </div>
+                                </div>
+
+                                <div class="bin-item bin-active">
+                                    <div class="bin-status-dot pulse-blue"></div>
+                                    <div class="bin-details">
+                                        <div class="bin-head">
+                                            <span class="bin-num">GaborMamba + SSANet</span>
+                                            <span class="bin-tag ta-tag">FAST INFERENCE</span>
+                                        </div>
+                                        <div class="bin-target">Full-HSI OA: 99.78% | Kappa: 99.51%</div>
+                                        <div class="bin-actuator">&bull; 222k parameters, ultra-lightweight edge scan</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT / CLASSES -->
-    <section id="about" class="about-section">
-        <div class="section-container">
-            <div class="section-header scroll-reveal">
-                <span class="section-eyebrow">Output Classes</span>
-                <h2 class="section-title">Component <em>Taxonomy</em></h2>
-                <p class="section-subtitle">The system classifies each pixel region into one of four component categories.</p>
-            </div>
-            <div class="classes-grid">
-                <div class="class-card scroll-reveal" style="--delay:0.1s;--class-color:#64748b;">
-                    <span class="class-index">0</span><h4 class="class-name">Others</h4>
-                    <p class="class-desc">Background substrate, traces, solder mask, and non-component regions.</p>
-                </div>
-                <div class="class-card scroll-reveal" style="--delay:0.2s;--class-color:#a78bfa;">
-                    <span class="class-index">1</span><h4 class="class-name">IC</h4>
-                    <p class="class-desc">Integrated Circuits — QFP, BGA, SOP and other semiconductor packages.</p>
-                </div>
-                <div class="class-card scroll-reveal" style="--delay:0.3s;--class-color:#06b6d4;">
-                    <span class="class-index">2</span><h4 class="class-name">Capacitor</h4>
-                    <p class="class-desc">Ceramic, electrolytic, and tantalum capacitors for energy storage.</p>
-                </div>
-                <div class="class-card scroll-reveal" style="--delay:0.4s;--class-color:#f59e0b;">
-                    <span class="class-index">3</span><h4 class="class-name">Connector</h4>
-                    <p class="class-desc">Pin headers, edge connectors, USB ports and I/O interfaces.</p>
-                </div>
-            </div>
-
-            <div class="pipeline-section scroll-reveal" style="--delay:0.3s">
-                <h3 class="pipeline-title">Processing <em>Pipeline</em></h3>
-                <div class="pipeline-steps">
-                    <div class="pipeline-step"><div class="step-number">01</div><h4>HSI Capture</h4><p>224-band hyperspectral cube</p></div>
-                    <div class="pipeline-connector"></div>
-                    <div class="pipeline-step"><div class="step-number">02</div><h4>PCA → 15D</h4><p>Dimensionality reduction</p></div>
-                    <div class="pipeline-connector"></div>
-                    <div class="pipeline-step"><div class="step-number">03</div><h4>8×8 Patches</h4><p>Spatial patch extraction</p></div>
-                    <div class="pipeline-connector"></div>
-                    <div class="pipeline-step"><div class="step-number">04</div><h4>Model Inference</h4><p>GaborMamba / CNN2D_AttGCN</p></div>
-                    <div class="pipeline-connector"></div>
-                    <div class="pipeline-step"><div class="step-number">05</div><h4>Component Map</h4><p>Pixel-level classification</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- FOOTER -->
     <footer class="footer">
-        <div class="footer-marquee"><div class="marquee-track marquee-reverse">
-            <span>Others</span><span class="marquee-dot">◇</span><span>IC</span><span class="marquee-dot">◇</span><span>Capacitor</span><span class="marquee-dot">◇</span><span>Connector</span><span class="marquee-dot">◇</span>
-            <span>Others</span><span class="marquee-dot">◇</span><span>IC</span><span class="marquee-dot">◇</span><span>Capacitor</span><span class="marquee-dot">◇</span><span>Connector</span><span class="marquee-dot">◇</span>
-        </div></div>
-        <div class="footer-content"><p>PCB HyperSpectral Vision · GaborMamba & CNN2D_AttGCN</p></div>
+        <div class="footer-content">
+            <p><strong>PCB HyperSpectral Vision &middot; Major Project 2026</strong></p>
+            <p class="footer-sub">Built with SSANet (IEEE GRSL 2025), GaborMamba, and CNN2D_AttGCN for Sustainable E-Waste Reclamation.</p>
+        </div>
     </footer>
 
-    <div id="tooltip" class="tooltip"></div>
     <script src="script.js"></script>
 </body>
 </html>

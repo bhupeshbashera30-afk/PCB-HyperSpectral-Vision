@@ -1,0 +1,112 @@
+{
+  "timestamp": "2026-10-06 13:51:57",
+  "execution_time_ms": 11136.2,
+  "pipeline_stages": [
+    {
+      "id": 1,
+      "name": "Image Upload",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 2,
+      "name": "PCB Data Ingestion (224-Band Cube)",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 3,
+      "name": "Calibration & Preprocessing",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 4,
+      "name": "PCA / Channel Attention (224 -> 15 Bands)",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 5,
+      "name": "Spatial Patch Extractor (8x8 WS)",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 6,
+      "name": "Spatio-Spectral Feature Backbone",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 7,
+      "name": "Recycling Importance Saliency Engine",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 8,
+      "name": "Saliency-Guided Adaptive Compression",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 9,
+      "name": "Compressed Latent Representation z",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 10,
+      "name": "Image Synthesis Decoder D(z) [SSANet 16 SSFE]",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 11,
+      "name": "Reconstruction Quality Audit (PSNR, SAM)",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 12,
+      "name": "Component Classification Head",
+      "status": "COMPLETE"
+    },
+    {
+      "id": 13,
+      "name": "Component Inventory & Mask Analytics",
+      "status": "COMPLETE"
+    }
+  ],
+  "compression_latent": {
+    "mode": "10%",
+    "raw_size_mb": 54.21,
+    "compressed_size_mb": 5.421,
+    "effective_sampling_rate": 10.0,
+    "compression_ratio": "10.0x",
+    "bandwidth_savings_pct": 90.0,
+    "important_pixels_pct": 42.6,
+    "unimportant_pixels_pct": 57.4,
+    "rate_important": 0.1,
+    "rate_unimportant": 0.1
+  },
+  "audit_metrics": {
+    "ssanet": {
+      "psnr_db": 59.03,
+      "sam_deg": 0.144,
+      "ssim": 0.9987,
+      "rmse": 0.0,
+      "grid_artifacts": "ELIMINATED (MMF Multi-Scale Attention Active)",
+      "status": "PASS - High-Fidelity Audit Cleared"
+    },
+    "baseline_dcns": {
+      "psnr_db": 20.76,
+      "sam_deg": 2.236,
+      "ssim": 0.7497,
+      "rmse": 0.09,
+      "grid_artifacts": "CONSPICUOUS (Stripe/Seam Tiling Present)",
+      "status": "DEGRADED"
+    },
+    "improvement": {
+      "psnr_gain_db": 38.27,
+      "sam_reduction_deg": 2.092,
+      "rmse_reduction": 0.09
+    }
+  },
+  "component_counts": {
+    "IC": 39,
+    "Capacitor": 579,
+    "Connector": 1356,
+    "Others": 587040
+  }
+}
